@@ -14,6 +14,10 @@
 		8B00CB7E28C0DDD4003250E8 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B00CB7D28C0DDD4003250E8 /* HeaderView.swift */; };
 		8B00CB8328C0F1CF003250E8 /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B00CB8228C0F1CF003250E8 /* ImageCell.swift */; };
 		8B00CB8628C0F542003250E8 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B00CB8528C0F542003250E8 /* UIView.swift */; };
+		8B00CB8828C101D8003250E8 /* Tile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B00CB8728C101D8003250E8 /* Tile.swift */; };
+		8B00CB8B28C12860003250E8 /* ImageDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B00CB8A28C12860003250E8 /* ImageDetailViewController.swift */; };
+		8B00CB8D28C12F17003250E8 /* HeadlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B00CB8C28C12F17003250E8 /* HeadlineView.swift */; };
+		8B00CB8F28C1343C003250E8 /* SublineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B00CB8E28C1343C003250E8 /* SublineView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +30,10 @@
 		8B00CB7D28C0DDD4003250E8 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		8B00CB8228C0F1CF003250E8 /* ImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
 		8B00CB8528C0F542003250E8 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
+		8B00CB8728C101D8003250E8 /* Tile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tile.swift; sourceTree = "<group>"; };
+		8B00CB8A28C12860003250E8 /* ImageDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDetailViewController.swift; sourceTree = "<group>"; };
+		8B00CB8C28C12F17003250E8 /* HeadlineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadlineView.swift; sourceTree = "<group>"; };
+		8B00CB8E28C1343C003250E8 /* SublineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SublineView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +69,7 @@
 				8B00CB8428C0F530003250E8 /* Extensions */,
 				8B00CB7F28C0DFE3003250E8 /* Support FIles */,
 				8B00CB8128C0F0BC003250E8 /* Cells */,
+				8B00CB8928C101DB003250E8 /* Model */,
 				8B00CB7C28C0DDBE003250E8 /* Views */,
 				8B00CB8028C0DFFB003250E8 /* Controllers */,
 				8B00CB7628C0D8D2003250E8 /* Info.plist */,
@@ -72,6 +81,8 @@
 			isa = PBXGroup;
 			children = (
 				8B00CB7D28C0DDD4003250E8 /* HeaderView.swift */,
+				8B00CB8C28C12F17003250E8 /* HeadlineView.swift */,
+				8B00CB8E28C1343C003250E8 /* SublineView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -90,6 +101,7 @@
 			isa = PBXGroup;
 			children = (
 				8B00CB6C28C0D8D2003250E8 /* FeedViewController.swift */,
+				8B00CB8A28C12860003250E8 /* ImageDetailViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -108,6 +120,14 @@
 				8B00CB8528C0F542003250E8 /* UIView.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		8B00CB8928C101DB003250E8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				8B00CB8728C101D8003250E8 /* Tile.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -182,7 +202,11 @@
 			files = (
 				8B00CB8628C0F542003250E8 /* UIView.swift in Sources */,
 				8B00CB6D28C0D8D2003250E8 /* FeedViewController.swift in Sources */,
+				8B00CB8D28C12F17003250E8 /* HeadlineView.swift in Sources */,
+				8B00CB8F28C1343C003250E8 /* SublineView.swift in Sources */,
+				8B00CB8B28C12860003250E8 /* ImageDetailViewController.swift in Sources */,
 				8B00CB8328C0F1CF003250E8 /* ImageCell.swift in Sources */,
+				8B00CB8828C101D8003250E8 /* Tile.swift in Sources */,
 				8B00CB7E28C0DDD4003250E8 /* HeaderView.swift in Sources */,
 				8B00CB6928C0D8D2003250E8 /* AppDelegate.swift in Sources */,
 			);
