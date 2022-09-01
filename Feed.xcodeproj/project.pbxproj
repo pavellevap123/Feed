@@ -12,6 +12,8 @@
 		8B00CB7228C0D8D2003250E8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B00CB7128C0D8D2003250E8 /* Assets.xcassets */; };
 		8B00CB7528C0D8D2003250E8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8B00CB7328C0D8D2003250E8 /* LaunchScreen.storyboard */; };
 		8B00CB7E28C0DDD4003250E8 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B00CB7D28C0DDD4003250E8 /* HeaderView.swift */; };
+		8B00CB8328C0F1CF003250E8 /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B00CB8228C0F1CF003250E8 /* ImageCell.swift */; };
+		8B00CB8628C0F542003250E8 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B00CB8528C0F542003250E8 /* UIView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +24,8 @@
 		8B00CB7428C0D8D2003250E8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8B00CB7628C0D8D2003250E8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8B00CB7D28C0DDD4003250E8 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
+		8B00CB8228C0F1CF003250E8 /* ImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
+		8B00CB8528C0F542003250E8 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,9 +58,10 @@
 		8B00CB6728C0D8D1003250E8 /* Feed */ = {
 			isa = PBXGroup;
 			children = (
+				8B00CB8428C0F530003250E8 /* Extensions */,
 				8B00CB7F28C0DFE3003250E8 /* Support FIles */,
+				8B00CB8128C0F0BC003250E8 /* Cells */,
 				8B00CB7C28C0DDBE003250E8 /* Views */,
-				8B00CB6828C0D8D2003250E8 /* AppDelegate.swift */,
 				8B00CB8028C0DFFB003250E8 /* Controllers */,
 				8B00CB7628C0D8D2003250E8 /* Info.plist */,
 			);
@@ -74,6 +79,7 @@
 		8B00CB7F28C0DFE3003250E8 /* Support FIles */ = {
 			isa = PBXGroup;
 			children = (
+				8B00CB6828C0D8D2003250E8 /* AppDelegate.swift */,
 				8B00CB7128C0D8D2003250E8 /* Assets.xcassets */,
 				8B00CB7328C0D8D2003250E8 /* LaunchScreen.storyboard */,
 			);
@@ -86,6 +92,22 @@
 				8B00CB6C28C0D8D2003250E8 /* FeedViewController.swift */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		8B00CB8128C0F0BC003250E8 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				8B00CB8228C0F1CF003250E8 /* ImageCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		8B00CB8428C0F530003250E8 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				8B00CB8528C0F542003250E8 /* UIView.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -158,7 +180,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8B00CB8628C0F542003250E8 /* UIView.swift in Sources */,
 				8B00CB6D28C0D8D2003250E8 /* FeedViewController.swift in Sources */,
+				8B00CB8328C0F1CF003250E8 /* ImageCell.swift in Sources */,
 				8B00CB7E28C0DDD4003250E8 /* HeaderView.swift in Sources */,
 				8B00CB6928C0D8D2003250E8 /* AppDelegate.swift in Sources */,
 			);
