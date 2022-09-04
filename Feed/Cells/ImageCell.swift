@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ImageCell: UICollectionViewCell {
+final class ImageCell: UICollectionViewCell {
     
     static let reuseID = "ImageCell"
     
@@ -58,7 +58,7 @@ extension ImageCell {
             imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             imageView.topAnchor.constraint(equalTo: headlineView.bottomAnchor),
             imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-
+            imageView.heightAnchor.constraint(greaterThanOrEqualToConstant: 200),
             
             //SublineView
             sublineView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
@@ -71,6 +71,5 @@ extension ImageCell {
         imageView.image = nil
         headlineView.label.text = ""
         sublineView.label.text = ""
-
     }
 }

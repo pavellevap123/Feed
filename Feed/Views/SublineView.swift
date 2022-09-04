@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SublineView: UIView {
+final class SublineView: UIView {
     
     lazy var label: UILabel = {
         let label = UILabel()

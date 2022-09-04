@@ -7,7 +7,7 @@
 
 import UIKit
 
-class HeadlineView: UIView {
+final class HeadlineView: UIView {
     
     lazy var label: UILabel = {
         let label = UILabel()
