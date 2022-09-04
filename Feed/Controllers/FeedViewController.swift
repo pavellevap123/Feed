@@ -37,20 +37,35 @@ final class FeedViewController: UIViewController {
     private func makeTilesNetworkCall() {
         guard let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/payback-test.appspot.com/o/feed.json?alt=media&token=3b3606dd-1d09-4021-a013-a30e958ad930") else { return }
 
-        URLSession.shared.dataTask(with: url) { data, response, error in
+        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+            if let err = error as? URLError, err.code  == URLError.Code.notConnectedToInternet {
+                DispatchQueue.main.async {
+                    self?.showInternetConnectionRetryAlert()
+                }
+            }
             guard let data = data else { return }
             
             do {
                 let fetchedTiles: Tiles = try JSONDecoder().decode(Tiles.self, from: data)
-                self.tiles = fetchedTiles.tiles
-                self.sortTiles()
+                self?.tiles = fetchedTiles.tiles
+                self?.sortTiles()
                 DispatchQueue.main.async {
-                    self.collectionView.reloadData()
+                    self?.collectionView.reloadData()
                 }
             } catch {
                 return
             }
         }.resume()
+    }
+    
+    private func showInternetConnectionRetryAlert() {
+        let alert = UIAlertController(title: "No internet connection", message: "Check your internet connection", preferredStyle: .alert)
+        let action = UIAlertAction(title: "Retry", style: .default) { [weak self] _ in
+            self?.makeTilesNetworkCall()
+            alert.dismiss(animated: true)
+        }
+        alert.addAction(action)
+        present(alert, animated: true)
     }
     
     private func style() {
@@ -150,10 +165,10 @@ extension FeedViewController: UICollectionViewDataSource {
         } else if tiles[indexPath.item].name == "image" {
             guard let data = tiles[indexPath.item].data else { return cell }
             guard let url = URL(string: data) else { return cell }
-            getData(from: url) { data, response, error in
+            getData(from: url) { [weak self] data, response, error in
                 guard let data = data, error == nil else { return }
                 let image = UIImage(data: data)
-                self.imagesDict[indexPath.item] = image
+                self?.imagesDict[indexPath.item] = image
                 DispatchQueue.main.async {
                     if image == nil {
                         cell.imageView.image = UIImage(systemName: "xmark.octagon.fill")
