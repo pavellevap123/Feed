@@ -11,9 +11,13 @@ final class FeedViewController: UIViewController {
     
     private let headerView = HeaderView()
     
-    private var tiles: [Tile] = []
+    private let cache = NSCache<NSString, Tiles>()
+    
+    private var tiles: Tiles?
     
     private var imagesDict: [Int: UIImage?] = [:]
+    
+    private var shouldUseCache = false
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -32,9 +36,35 @@ final class FeedViewController: UIViewController {
         layout()
         
         makeTilesNetworkCall()
+        
+        Timer.scheduledTimer(timeInterval: 86400, target: self, selector: #selector(timerFetch), userInfo: nil, repeats: true)
     }
     
+    @objc private func timerFetch() {
+        shouldUseCache = false
+        makeTilesNetworkCall()
+    }
+    
+    private func getCachedTiles() {
+        if let cachedVersion = cache.object(forKey: "Tiles") {
+            tiles = cachedVersion
+            print("Using cached version")
+        } else {
+            guard let fetchedTiles = tiles else { return }
+            cache.setObject(fetchedTiles, forKey: "Tiles")
+        }
+    }
+    
+    
     private func makeTilesNetworkCall() {
+        if shouldUseCache {
+            getCachedTiles()
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+            return
+        }
+        
         guard let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/payback-test.appspot.com/o/feed.json?alt=media&token=3b3606dd-1d09-4021-a013-a30e958ad930") else { return }
 
         URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
@@ -47,8 +77,9 @@ final class FeedViewController: UIViewController {
             
             do {
                 let fetchedTiles: Tiles = try JSONDecoder().decode(Tiles.self, from: data)
-                self?.tiles = fetchedTiles.tiles
+                self?.tiles = fetchedTiles
                 self?.sortTiles()
+                self?.shouldUseCache = true
                 DispatchQueue.main.async {
                     self?.collectionView.reloadData()
                 }
@@ -89,7 +120,7 @@ final class FeedViewController: UIViewController {
             headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
-            //Header
+            //collectionView
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.topAnchor.constraint(equalTo: headerView.bottomAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -102,7 +133,7 @@ final class FeedViewController: UIViewController {
     }
     
     private func sortTiles() {
-        tiles.sort {
+        tiles?.tiles.sort {
             $0.score > $1.score
         }
     }
@@ -110,18 +141,18 @@ final class FeedViewController: UIViewController {
 
 extension FeedViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if tiles[indexPath.item].name == "shopping_list" {
+        if tiles?.tiles[indexPath.item].name == "shopping_list" {
             let shoppingListVC = ShoppingListViewController()
             navigationController?.pushViewController(shoppingListVC, animated: true)
         }
-        if tiles[indexPath.item].name == "video" {
+        if tiles?.tiles[indexPath.item].name == "video" {
             let videoDetailVC = VideoDetailViewController()
-            if let data = tiles[indexPath.item].data {
+            if let data = tiles?.tiles[indexPath.item].data {
                 videoDetailVC.stringURL = data
             }
             navigationController?.pushViewController(videoDetailVC, animated: true)
         }
-        if tiles[indexPath.item].name == "image" {
+        if tiles?.tiles[indexPath.item].name == "image" {
             let imageDetailVC = ImageDetailViewController()
             if let image = imagesDict[indexPath.item] {
                 if image == nil {
@@ -131,9 +162,9 @@ extension FeedViewController: UICollectionViewDelegate {
                 }
             }
             navigationController?.pushViewController(imageDetailVC, animated: true)
-        } else if tiles[indexPath.item].name == "website" {
+        } else if tiles?.tiles[indexPath.item].name == "website" {
             let webDetailVC = WebDetailViewController()
-            if let data = tiles[indexPath.item].data {
+            if let data = tiles?.tiles[indexPath.item].data {
                 webDetailVC.stringUrl = data
             }
             navigationController?.pushViewController(webDetailVC, animated: true)
@@ -143,27 +174,28 @@ extension FeedViewController: UICollectionViewDelegate {
 
 extension FeedViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        guard let tiles = tiles?.tiles else { return 0 }
         return tiles.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCell.reuseID, for: indexPath) as! ImageCell
-        cell.headlineView.label.text = tiles[indexPath.item].headline
-        if let subline = tiles[indexPath.item].subline {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCell.reuseID, for: indexPath) as? ImageCell else { return UICollectionViewCell() }
+        cell.headlineView.label.text = tiles?.tiles[indexPath.item].headline
+        if let subline = tiles?.tiles[indexPath.item].subline {
             cell.sublineView.label.text = subline
             cell.imageView.bottomAnchor.constraint(equalTo: cell.sublineView.topAnchor).isActive = true
         } else {
             cell.sublineView.isHidden = true
             cell.imageView.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor).isActive = true
         }
-        if tiles[indexPath.item].name == "shopping_list" {
+        if tiles?.tiles[indexPath.item].name == "shopping_list" {
             cell.imageView.image = UIImage(systemName: "list.bullet.circle")
-        } else if tiles[indexPath.item].name == "video" {
+        } else if tiles?.tiles[indexPath.item].name == "video" {
             cell.imageView.image = UIImage(systemName: "video")
-        } else if tiles[indexPath.item].name == "website" {
+        } else if tiles?.tiles[indexPath.item].name == "website" {
             cell.imageView.image = UIImage(systemName: "safari")
-        } else if tiles[indexPath.item].name == "image" {
-            guard let data = tiles[indexPath.item].data else { return cell }
+        } else if tiles?.tiles[indexPath.item].name == "image" {
+            guard let data = tiles?.tiles[indexPath.item].data else { return cell }
             guard let url = URL(string: data) else { return cell }
             getData(from: url) { [weak self] data, response, error in
                 guard let data = data, error == nil else { return }
